@@ -36,6 +36,7 @@
 #include <components/controller.h>
 #include <components/render.h>
 #include <extensions/camera/camera.h>
+#include <extensions/camera/firstperson.h>
 #include <extensions/menu/menu.h>
 #include <extensions/scripting/lua.h>
 #include <extensions/kitchensink/kitchensink.h>
@@ -84,6 +85,26 @@ int main(int argc, const char** argv) {
 	Language::Load("en");
 	
 	Script::LoadScript("init");
+	
+	
+	
+	WorldCell* level = WorldCell::Make("level");
+	level->LoadFromDisk();
+	level->Load();
+	
+	Player* player = new Player;
+	player->SetLocation({0, 25, 0});
+	player->Load();
+	
+	
+	Ext::Camera::FirstPersonCamera* camera = new Ext::Camera::FirstPersonCamera;
+	camera->SetMouselook(true);
+	camera->SetRotateFollowing(true);
+	camera->SetFollowingOffset({0, 0.8, 0});
+	camera->SetFollowing(player);
+	camera->SetActive();
+	
+	
 	
 	#ifdef __EMSCRIPTEN__
 		UI::SetWebMainLoop(main_loop);
