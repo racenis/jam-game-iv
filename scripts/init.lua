@@ -5,7 +5,7 @@ tram.ui.SetWindowSize(640, 480)
 
 
 sundir = tram.math.DIRECTION_FORWARD
-sundir = sundir + tram.math.DIRECTION_SIDE + tram.math.DIRECTION_SIDE
+sundir = sundir - tram.math.DIRECTION_SIDE - tram.math.DIRECTION_SIDE
 sundir = sundir + tram.math.DIRECTION_UP + tram.math.DIRECTION_UP + tram.math.DIRECTION_UP
 sundir = sundir:normalize()
 
