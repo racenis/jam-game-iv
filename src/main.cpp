@@ -43,6 +43,8 @@
 #include <extensions/kitchensink/entities.h>
 #include <extensions/kitchensink/soundtable.h>
 
+#include "creature.h"
+
 using namespace tram;
 using namespace tram::UI;
 using namespace tram::Render;
@@ -61,6 +63,8 @@ int main(int argc, const char** argv) {
     Trigger::Register();
     StaticWorldObject::Register();
     Ext::Kitchensink::Button::Register();
+	
+	Creature::Register();
 	
 	Core::Init();
 	UI::Init();

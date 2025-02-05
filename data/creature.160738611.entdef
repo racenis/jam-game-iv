@@ -1,0 +1,13 @@
+
+begin
+	name creature
+	
+
+	
+	field string model
+
+	
+	version 160738611
+end
+	
+	
