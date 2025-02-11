@@ -4,9 +4,16 @@
 #include <framework/entity.h>
 #include <framework/serialization.h>
 
+#include <framework/event.h>
+
 #include <templates/macros.h>
 
 using namespace tram;
+
+enum GameState {
+	STATE_NORMAL,
+	STATE_ITEM
+};
 
 class ProgressController : public Entity {
 public:
@@ -25,5 +32,36 @@ public:
 	void MessageHandler(Message& msg);
 	name_t GetType();
 	
+	GameState GetState() {
+		return state;
+	}
+	
+	void SetNPCDialog(std::string dialog); 
+	
+private:
+	GameState state = STATE_NORMAL;
+	
+	bool found_key = false;
+	bool found_car = false;
+	bool found_ball = false;
+	bool found_spray = false;
+	bool found_scooter = false;
+	bool found_giblets = false;
+	
+	bool searching_chocolate = false;
+	bool found_all_chocolate = false;
+	bool gave_sandbox_guy_car = false;
+	int chocolate_found = 0;
+	
+	
+	int sandbox_guy_text = 0;
+	
+	
+	std::string npc_text = "";
+	int npc_progress = 0;
+	int npc_length = 0;
+	
+	EventListener frame;
+	EventListener keypress;
 };
 	

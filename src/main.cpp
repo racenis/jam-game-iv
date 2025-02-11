@@ -44,6 +44,7 @@
 #include <extensions/kitchensink/soundtable.h>
 
 #include "creature.h"
+#include "progresscontroller.h"
 
 using namespace tram;
 using namespace tram::UI;
@@ -82,6 +83,8 @@ int main(int argc, const char** argv) {
 	Ext::Camera::Init();
 	Ext::Kitchensink::Init();
 
+	ProgressController::Init();
+	
 	Ext::Scripting::Lua::Init();
 	Script::Init();
 
@@ -131,11 +134,12 @@ void main_loop() {
 	Physics::Update();	
 
 	GUI::Begin();
-	Ext::Menu::Update();
-
+	
 	Event::Dispatch();
 	Message::Dispatch();
 	
+	Ext::Menu::Update();
+
 	GUI::End();
 	GUI::Update();
 	
