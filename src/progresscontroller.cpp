@@ -10,8 +10,6 @@
 #include <framework/ui.h>
 #include <render/render.h>
 
-#include <components/render.h>
-
 #include <framework/gui.h>
 #include <extensions/menu/menu.h>
 
@@ -46,10 +44,19 @@ ProgressController::ProgressController() : Entity("progress") {
 		return controller->SetNPCDialog((const char*)array[0]), true;
 	});
 	
+	Script::SetFunction("SetNPCCallback", {TYPE_NAME}, [](valuearray_t array) -> value_t {
+		return controller->SetNPCCallback(array[0]), true;
+	});
+	
+	
+	
 	Script::SetFunction("SetNotification", {TYPE_STRING}, [](valuearray_t array) -> value_t {
 		return controller->SetNotification((const char*)array[0]), true;
 	});
 	
+	Script::SetFunction("SetItemDisplay", {TYPE_STRING, TYPE_NAME}, [](valuearray_t array) -> value_t {
+		return controller->SetItemDisplay((const char*)array[0], array[1]), true;
+	});
 }
 
 void ProgressController::Init() {
@@ -88,9 +95,36 @@ void ProgressController::SetNPCDialog(std::string dialog) {
 	npc_length = 0;
 }
 
+void ProgressController::SetNPCCallback(name_t callback) {
+	npc_callback = callback;
+}
+
 void ProgressController::SetNotification(std::string notif) {
 	notif_text = notif;
 	notif_progress = notif.length() + 120;
+	notif_length = 0;
+}
+
+void ProgressController::SetItemDisplay(std::string text, name_t model) {
+	item_model.make();
+	item_animation.make();
+	
+	item_model->SetParent(this);
+	item_model->SetModel("item/car");
+	item_model->SetLocation({0, 0, -1});
+	item_model->SetLayer(2);
+	item_model->Init();
+	
+	item_animation->SetParent(this);
+	item_animation->SetModel("item/car");
+	item_animation->Init();
+	
+	item_animation->Play("item-rotate", -1, 1.0f, 1.0f);
+	
+	item_model->SetArmature(item_animation);
+	
+	notif_text = text;
+	notif_progress = -1;
 	notif_length = 0;
 }
 
@@ -136,7 +170,9 @@ void ProgressController::EventHandler(Event& evt) {
 				}
 			}
 			
-			Render::AddText(5, 0, text.c_str());
+			if (UI::GetInputState() != UI::STATE_MENU_OPEN) {
+				Render::AddText(5, 0, text.c_str());
+			}
 			
 			
 			// draw the NPC dialogs
@@ -150,6 +186,11 @@ void ProgressController::EventHandler(Event& evt) {
 					GUI::Text(text.c_str(), GUI::TEXT_CENTER);
 					GUI::RestoreFont();
 				GUI::PopFrame();
+				
+				if (!npc_progress && npc_callback) {
+					Script::CallFunction("ScriptProgress", {npc_callback});
+					npc_callback = "none";
+				}
 			}
 			
 			if (notif_progress) {
@@ -165,7 +206,12 @@ void ProgressController::EventHandler(Event& evt) {
 			
 		} break;
 		case Event::KEYPRESS:
-			;
+			if (evt.subtype == UI::KEY_ACTION_JUMP && item_model) {
+				item_model.clear();
+				item_animation.clear();
+				
+				notif_progress = 0;
+			}
 			break;
 		default:
 			std::cout << "Progress unrecognized event: " << Event::GetName(evt.type) << std::endl; 

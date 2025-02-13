@@ -1,3 +1,4 @@
+-- Nightmare Explorer v1.0 progress script
 
 ResetProgressState()
 
@@ -27,6 +28,10 @@ function ScriptProgress(t)
 	elseif t == "gate" then
 		SetNotification("The gate is locked.")
 	
+	elseif t == "car" then
+		SetItemDisplay("Waow! You found car!", "item/car")
+		found_car = true
+	
 	elseif t == "sandbox-guy" then
 		local dialogs = {
 			"I like sand.",
@@ -36,10 +41,10 @@ function ScriptProgress(t)
 
 		SetNPCDialog(dialogs[sandbox_guy_text % 3 + 1])
 		
+		SetNPCCallback("car")
+		
 		sandbox_guy_text = sandbox_guy_text + 1
 	else 
 		print("Unrecognized progress:", t)
 	end
-	
-	found_key = true
 end

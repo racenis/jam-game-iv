@@ -6,6 +6,9 @@
 
 #include <framework/event.h>
 
+#include <components/render.h>
+#include <components/animation.h>
+
 #include <templates/macros.h>
 
 using namespace tram;
@@ -37,7 +40,9 @@ public:
 	}
 	
 	void SetNPCDialog(std::string dialog); 
+	void SetNPCCallback(name_t callback); 
 	void SetNotification(std::string notif); 
+	void SetItemDisplay(std::string text, name_t model);
 	
 private:
 	GameState state = STATE_NORMAL;
@@ -45,10 +50,14 @@ private:
 	std::string npc_text = "";
 	int npc_progress = 0;
 	int npc_length = 0;
+	name_t npc_callback;
 	
 	std::string notif_text = "";
 	int notif_progress = 0;
 	int notif_length = 0;
+	
+	Component<RenderComponent> item_model;
+	Component<AnimationComponent> item_animation;
 	
 	EventListener frame;
 	EventListener keypress;

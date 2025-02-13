@@ -86,15 +86,15 @@ int main(int argc, const char** argv) {
 	Ext::Scripting::Lua::Init();
 	Script::Init();
 
-	ProgressController::Init();
-	
 	Material::LoadMaterialInfo("material");
 	Language::Load("en");
 	
+	Animation::Find("item-rotate")->Load();
+	
+	ProgressController::Init();
+	
 	Script::LoadScript("init");
 	Script::LoadScript("progress");
-	
-	
 	
 	WorldCell* level = WorldCell::Make("level");
 	level->LoadFromDisk();
