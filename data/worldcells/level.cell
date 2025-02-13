@@ -40,6 +40,10 @@ creature 821802386 none 0 -30.152267 0 -3 0 0.54917866 0 creature/sit
 creature 451551867 none 0 -11 5 -7.2492533 3.141592 -1.570451 3.141592 creature/worm 
 creature 601419071 none 0 -10.362826 5.586447 -5.6326976 0 0.54917866 0 creature/sit 
 creature 509227403 none 0 -10.300047 5 -17.043346 3.1415927 1.5142082 3.1415927 creature/guard 
+trigger 325680370 none 0 -30 1 -3 0 0 0 0 32 sandbox-guy-trigger 
+signal 325680370 activate progress 0 -1 ping name sandbox-guy 
+trigger 717473941 none 0 26.249992 1 27.25 0 0 0 0 32 gate-trigger 
+signal 717473941 activate progress 0 -1 ping name gate 
 group interior-lights 
 group interior 
 decoration 396988251 none 0 -11 5.5 -7.2481527 3.1415927 -1.5660622 3.1415913 0 toilet none 

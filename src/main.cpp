@@ -82,16 +82,17 @@ int main(int argc, const char** argv) {
 	Ext::Menu::Init();
 	Ext::Camera::Init();
 	Ext::Kitchensink::Init();
-
-	ProgressController::Init();
 	
 	Ext::Scripting::Lua::Init();
 	Script::Init();
 
+	ProgressController::Init();
+	
 	Material::LoadMaterialInfo("material");
 	Language::Load("en");
 	
 	Script::LoadScript("init");
+	Script::LoadScript("progress");
 	
 	
 	
@@ -111,7 +112,9 @@ int main(int argc, const char** argv) {
 	camera->SetFollowing(player);
 	camera->SetActive();
 	
-	
+	UI::BindKeyboardKey(UI::KEY_KP_ENTER, [](){
+		Script::LoadScript("progress");
+	});
 	
 	#ifdef __EMSCRIPTEN__
 		UI::SetWebMainLoop(main_loop);

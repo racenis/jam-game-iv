@@ -15,10 +15,14 @@
 #include <framework/gui.h>
 #include <extensions/menu/menu.h>
 
+#include <framework/script.h>
+
 #include <iostream>
 #include <string>
 
 static ProgressController* controller = nullptr;
+
+std::vector<name_t> variable_debugs;
 
 ProgressController::ProgressController() : Entity("progress") {
 	frame.make(Event::FRAME, this);
@@ -29,6 +33,23 @@ ProgressController::ProgressController() : Entity("progress") {
 	comp->SetModel("dev/light");
 	comp->SetLocation({0, 2, -5});
 	comp->Init();
+	
+	Script::SetFunction("ResetProgressState", {}, [](valuearray_t array) -> value_t {
+		return variable_debugs.clear(), true;
+	});
+	
+	Script::SetFunction("VariableDebug", {TYPE_NAME}, [](valuearray_t array) -> value_t {
+		return variable_debugs.push_back(array[0]), true;
+	});
+	
+	Script::SetFunction("SetNPCDialog", {TYPE_STRING}, [](valuearray_t array) -> value_t {
+		return controller->SetNPCDialog((const char*)array[0]), true;
+	});
+	
+	Script::SetFunction("SetNotification", {TYPE_STRING}, [](valuearray_t array) -> value_t {
+		return controller->SetNotification((const char*)array[0]), true;
+	});
+	
 }
 
 void ProgressController::Init() {
@@ -67,6 +88,12 @@ void ProgressController::SetNPCDialog(std::string dialog) {
 	npc_length = 0;
 }
 
+void ProgressController::SetNotification(std::string notif) {
+	notif_text = notif;
+	notif_progress = notif.length() + 120;
+	notif_length = 0;
+}
+
 static std::string flag_helper(const char* text, bool value) {
 	std::string result = text;
 	while (result.length() < 21) result += " ";
@@ -98,19 +125,16 @@ void ProgressController::EventHandler(Event& evt) {
 			                                    + std::to_string(ploc.y) + " "
 									            + std::to_string(ploc.z);
 			
-			text += flag_helper("\nfound_key", found_key);
-			text += flag_helper("\nfound_car", found_car);
-			text += flag_helper("\nfound_ball", found_ball);
-			text += flag_helper("\nfound_spray", found_spray);
-			text += flag_helper("\nfound_scooter", found_scooter);
-			text += flag_helper("\nfound_giblets", found_giblets);
-			
-			text += flag_helper("\nsearching_chocolate", searching_chocolate);
-			text += flag_helper("\nfound_all_chocolate", found_all_chocolate);
-			text += flag_helper("\ngave_sandbox_guy_car", gave_sandbox_guy_car);
-			text += flag_helper("\nchocolate_found", chocolate_found);
-			
-			text += flag_helper("\nsandbox_guy_text", sandbox_guy_text);
+			for (auto variable : variable_debugs) {
+				value_t value = Script::GetGlobal(variable);
+				text += "\n";
+				
+				if (value.IsInt()) {
+					text += flag_helper(variable, value.GetInt());
+				} else {
+					text += flag_helper(variable, (bool)value);
+				}
+			}
 			
 			Render::AddText(5, 0, text.c_str());
 			
@@ -127,6 +151,18 @@ void ProgressController::EventHandler(Event& evt) {
 					GUI::RestoreFont();
 				GUI::PopFrame();
 			}
+			
+			if (notif_progress) {
+				std::string text = notif_text.substr(0, ++notif_length);
+				notif_progress--;
+				
+				GUI::PushFrameRelative(GUI::FRAME_BOTTOM, 100);
+					GUI::SetFont(Ext::Menu::FONT_PIXELART, GUI::TEXT);
+					GUI::Text(text.c_str(), GUI::TEXT_CENTER);
+					GUI::RestoreFont();
+				GUI::PopFrame();
+			}
+			
 		} break;
 		case Event::KEYPRESS:
 			;
@@ -141,35 +177,6 @@ void ProgressController::MessageHandler(Message& msg) {
 	
 	name_t type = *msg.data_value;
 	
-	if (type == "hello") {
-		std::cout << "hello!" << std::endl;
-		
-		SetNPCDialog("hello!");
-	
-	} else if (type == "gate") {
-		SetNPCDialog("The gate is locked.");
-	} else if (type == "sandbox-guy") {
-		switch (sandbox_guy_text++ % 3) {
-			case 0: SetNPCDialog("I like sand."); break;
-			case 1: SetNPCDialog("Sometimes I find chocolate in the sand."); break;
-			case 2: SetNPCDialog("My mom dropped me on the head."); break;
-		}
-	} else if (type == "gate-locked") {
-		
-	} else {
-		std::cout << "Unrecognized progress: " << type << std::endl;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	Script::CallFunction("ScriptProgress", {type});
 }
 	
