@@ -1,4 +1,4 @@
-CELLv3 level 0 1 
+CELLv3 level 0 0 
 version creature 160738611 
 staticwobj 420 worldspawn 0 0 0 0 0 0 0 worldspawn lightmap/worldspawn 
 group exterior-lights 
@@ -48,6 +48,22 @@ trigger 723367328 none 0 -13.75 5.75 -17 0 0 0 0 32 witch-trigger
 signal 723367328 activate progress 0 -1 ping name witch 
 staticwobj 567036969 witch-barrier 0 -10.5 6.5 -17 0 0 0 witch-barrier fullbright 
 signal 567036969 activate progress 0 -1 ping name sandbox-guy 
+trigger 825626063 none 0 -36 2.5 21 0 0 0 0 32 pool-trigger 
+signal 825626063 activate progress 0 -1 ping name sandbox-guy 
+staticwobj 109282509 none 0 -36 -0.5 21 0 0 0 pool-water pool-water 
+staticwobj 808293462 none 0 3.875 2.125 2 0 0 0 chairs-hallway chairs-hallway 
+staticwobj 422008010 none 0 -14 5.75 -3.75 0 0 0 group-interior-a group-interior-a 
+staticwobj 342725598 none 0 12.75 5.75 -15.75 0 0 0 group-interior-b group-interior-b 
+trigger 201805591 none 0 -11 5.75 -7.25 0 0 0 0 32 toilet-trigger 
+signal 201805591 activate progress 0 -1 ping name toilet 
+trigger 420240966 none 0 2.5 2.5 2 0 0 0 0 32 trigger-confused 
+signal 420240966 activate progress 0 -1 ping name confused 
+trigger 895651878 none 0 0.5 1 -5.25 0 0 0 0 32 pickup-trigger 
+signal 895651878 activate progress 0 -1 ping name car 
+signal 895651878 activate car-pickup 0 1 kill none 
+decoration 678960398 car-pickup 0 0.5 1 -5.25 0 0 0 0 item/car item-rotate 
+signal 678960398 activate progress 0 -1 ping name car 
+signal 678960398 activate car-pickup 0 1 kill none 
 group interior-lights 
 group interior 
 decoration 396988251 none 0 -11 5.5 -7.2481527 3.1415927 -1.5660622 3.1415913 0 toilet none 

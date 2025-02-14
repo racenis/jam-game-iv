@@ -11,11 +11,39 @@
 
 #include <templates/macros.h>
 
+#include <queue>
+
 using namespace tram;
 
 enum GameState {
 	STATE_NORMAL,
 	STATE_ITEM
+};
+
+class PrinterFormatter {
+public:
+	PrinterFormatter(std::string text, bool indefinite = false) {
+		this->text = text;
+		this->progress = text.length() + 120;
+		this->length = 0;
+		
+		if (indefinite) {
+			this->progress = -1;
+		}
+	}
+	
+	std::string GetText() {
+		progress--;
+		return text.substr(0, ++length);	
+	}
+	
+	bool IsEnd() {
+		return !progress;
+	}
+private:
+	std::string text = "";
+	int progress = 0; // TODO: have progress be in seconds, not ticks
+	int length = 0;
 };
 
 class ProgressController : public Entity {
@@ -48,14 +76,10 @@ public:
 private:
 	GameState state = STATE_NORMAL;
 	
-	std::string npc_text = "";
-	int npc_progress = 0;
-	int npc_length = 0;
+	std::queue<PrinterFormatter> npc_queue;
 	name_t npc_callback;
 	
-	std::string notif_text = "";
-	int notif_progress = 0;
-	int notif_length = 0;
+	std::queue<PrinterFormatter> notif_queue;
 	name_t notif_callback;
 	
 	Component<RenderComponent> item_model;

@@ -48,8 +48,6 @@ ProgressController::ProgressController() : Entity("progress") {
 		return controller->SetNPCCallback(array[0]), true;
 	});
 	
-	
-	
 	Script::SetFunction("SetNotification", {TYPE_STRING}, [](valuearray_t array) -> value_t {
 		return controller->SetNotification((const char*)array[0]), true;
 	});
@@ -90,9 +88,10 @@ void ProgressController::Serialize() {
 }
 
 void ProgressController::SetNPCDialog(std::string dialog) {
-	npc_text = dialog;
-	npc_progress = dialog.length() + 120;
-	npc_length = 0;
+	//npc_text = dialog;
+	//npc_progress = dialog.length() + 120;
+	//npc_length = 0;
+	npc_queue.emplace(dialog);
 }
 
 void ProgressController::SetNPCCallback(name_t callback) {
@@ -104,9 +103,10 @@ void ProgressController::SetNotificationCallback(name_t callback) {
 }
 
 void ProgressController::SetNotification(std::string notif) {
-	notif_text = notif;
-	notif_progress = notif.length() + 120;
-	notif_length = 0;
+	//notif_text = notif;
+	//notif_progress = notif.length() + 120;
+	//notif_length = 0;
+	notif_queue.emplace(notif);
 }
 
 void ProgressController::SetItemDisplay(std::string text, name_t model) {
@@ -127,9 +127,11 @@ void ProgressController::SetItemDisplay(std::string text, name_t model) {
 	
 	item_model->SetArmature(item_animation);
 	
-	notif_text = text;
-	notif_progress = -1;
-	notif_length = 0;
+	
+	notif_queue.emplace(text, true);
+	//notif_text = text;
+	//notif_progress = -1;
+	//notif_length = 0;
 }
 
 static std::string flag_helper(const char* text, bool value) {
@@ -181,23 +183,37 @@ void ProgressController::EventHandler(Event& evt) {
 			
 			// draw the NPC dialogs
 			
-			if (npc_progress) {
-				std::string text = npc_text.substr(0, ++npc_length);
-				npc_progress--;
-				
-				GUI::PushFrameRelative(GUI::FRAME_BOTTOM, 100);
-					GUI::SetFont(Ext::Menu::FONT_PIXELART, GUI::TEXT);
-					GUI::Text(text.c_str(), GUI::TEXT_CENTER);
-					GUI::RestoreFont();
-				GUI::PopFrame();
-				
-				if (!npc_progress && npc_callback) {
-					Script::CallFunction("ScriptProgress", {npc_callback});
-					npc_callback = "none";
+			if (npc_queue.size()) {
+				if (npc_queue.front().IsEnd()) {
+					npc_queue.pop();
+				} else {
+					GUI::PushFrameRelative(GUI::FRAME_BOTTOM, 100);
+						GUI::SetFont(Ext::Menu::FONT_PIXELART, GUI::TEXT);
+						GUI::Text(npc_queue.front().GetText().c_str(), GUI::TEXT_CENTER);
+						GUI::RestoreFont();
+					GUI::PopFrame();
 				}
+			} else if (npc_callback) {
+				Script::CallFunction("ScriptProgress", {npc_callback});
+				npc_callback = "none";
 			}
 			
-			if (notif_progress) {
+			if (notif_queue.size()) {
+				if (notif_queue.front().IsEnd()) {
+					notif_queue.pop();
+				} else {
+					GUI::PushFrameRelative(GUI::FRAME_BOTTOM, 100);
+						GUI::SetFont(Ext::Menu::FONT_PIXELART, GUI::TEXT);
+						GUI::Text(notif_queue.front().GetText().c_str(), GUI::TEXT_CENTER);
+						GUI::RestoreFont();
+					GUI::PopFrame();
+				}
+			} else if (notif_callback) {
+				Script::CallFunction("ScriptProgress", {notif_callback});
+				notif_callback = "none";
+			}
+			
+			/*if (notif_progress) {
 				std::string text = notif_text.substr(0, ++notif_length);
 				notif_progress--;
 				
@@ -211,7 +227,7 @@ void ProgressController::EventHandler(Event& evt) {
 					Script::CallFunction("ScriptProgress", {notif_callback});
 					notif_callback = "none";
 				}
-			}
+			}*/
 			
 		} break;
 		case Event::KEYPRESS:
@@ -219,7 +235,7 @@ void ProgressController::EventHandler(Event& evt) {
 				item_model.clear();
 				item_animation.clear();
 				
-				notif_progress = 0;
+				while (notif_queue.size()) notif_queue.pop();
 			}
 			break;
 		default:

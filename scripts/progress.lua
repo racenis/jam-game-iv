@@ -29,14 +29,32 @@ function ScriptProgress(t)
 	elseif t == "gate" then
 		SetNotification("The gate is locked.")
 	
+	elseif t == "confused" then
+		SetNotification("Tables, chairs, all confused.")
+	
 	elseif t == "car" then
 		SetItemDisplay("Waow! You found car!", "item/car")
 		found_car = true
 	
+	elseif t == "toilet" then
+		if found_spray then
+		
+		elseif found_all_chocolate then
+			SetNPCDialog("Bring chocolates and I will assist.")
+			
+		elseif searching_chocolate then
+			SetNPCDialog("Bring chocolates and I will assist.")
+			
+		else
+			SetNPCDialog("Find me 3 sandbox chocolates.")
+			searching_chocolate = true
+		end
+		
 	elseif t == "witch" then
 		if found_spray then
 			SetNotification("You spray the witch.")
-			SetNotificationCallback("witch-sprayed")
+			SetNotification("The witch is dead.")
+			--SetNotificationCallback("witch-sprayed")
 		else
 			local dialogs = {
 				"I am busy!!!",
@@ -48,18 +66,26 @@ function ScriptProgress(t)
 
 			witch_text = witch_text + 1
 		end
-	elseif t == "witch-sprayed" then
-		SetNotification("The witch is dead.")
 	elseif t == "sandbox-guy" then
-		local dialogs = {
-			"I like sand.",
-			"Sometimes I find chocolate in the sand.",
-			"My mom dropped me on the head."
-		}
+		if searching_chocolate and found_car then
+			SetNPCDialog("Waow! That is my car!")
+			SetNPCDialog("Here: take this --")
+			SetNPCCallback("car")
+		elseif searching_chocolate then
+			SetNPCDialog("I lost my car!")
+			SetNPCDialog("I will trade my chocolate")
+			SetNPCDialog("that I found while digging in the sand!")
+		else
+			local dialogs = {
+				"I like sand.",
+				"Sometimes I find chocolate in the sand.",
+				"My mom dropped me on the head."
+			}
 
-		SetNPCDialog(dialogs[sandbox_guy_text % 3 + 1])
+			SetNPCDialog(dialogs[sandbox_guy_text % 3 + 1])
 
-		sandbox_guy_text = sandbox_guy_text + 1
+			sandbox_guy_text = sandbox_guy_text + 1
+		end
 	else 
 		print("Unrecognized progress:", t)
 	end
