@@ -15,6 +15,7 @@ gave_sandbox_guy_car = false;	VariableDebug("gave_sandbox_guy_car")
 chocolate_found = 0;			VariableDebug("chocolate_found")
 
 sandbox_guy_text = 0;			VariableDebug("sandbox_guy_text")
+witch_text = 0;					VariableDebug("witch_text")
 
 function ScriptProgress(t)
 	print("Received progress trigger:", t)
@@ -32,6 +33,23 @@ function ScriptProgress(t)
 		SetItemDisplay("Waow! You found car!", "item/car")
 		found_car = true
 	
+	elseif t == "witch" then
+		if found_spray then
+			SetNotification("You spray the witch.")
+			SetNotificationCallback("witch-sprayed")
+		else
+			local dialogs = {
+				"I am busy!!!",
+				"Go away!!!",
+				"I am eating you!!!"
+			}
+
+			SetNPCDialog(dialogs[witch_text % 3 + 1])
+
+			witch_text = witch_text + 1
+		end
+	elseif t == "witch-sprayed" then
+		SetNotification("The witch is dead.")
 	elseif t == "sandbox-guy" then
 		local dialogs = {
 			"I like sand.",
@@ -40,9 +58,7 @@ function ScriptProgress(t)
 		}
 
 		SetNPCDialog(dialogs[sandbox_guy_text % 3 + 1])
-		
-		SetNPCCallback("car")
-		
+
 		sandbox_guy_text = sandbox_guy_text + 1
 	else 
 		print("Unrecognized progress:", t)

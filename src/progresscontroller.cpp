@@ -99,6 +99,10 @@ void ProgressController::SetNPCCallback(name_t callback) {
 	npc_callback = callback;
 }
 
+void ProgressController::SetNotificationCallback(name_t callback) {
+	notif_callback = callback;
+}
+
 void ProgressController::SetNotification(std::string notif) {
 	notif_text = notif;
 	notif_progress = notif.length() + 120;
@@ -202,6 +206,11 @@ void ProgressController::EventHandler(Event& evt) {
 					GUI::Text(text.c_str(), GUI::TEXT_CENTER);
 					GUI::RestoreFont();
 				GUI::PopFrame();
+				
+				if (!notif_progress && notif_callback) {
+					Script::CallFunction("ScriptProgress", {notif_callback});
+					notif_callback = "none";
+				}
 			}
 			
 		} break;

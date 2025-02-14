@@ -41,7 +41,8 @@ public:
 	
 	void SetNPCDialog(std::string dialog); 
 	void SetNPCCallback(name_t callback); 
-	void SetNotification(std::string notif); 
+	void SetNotification(std::string notif);
+	void SetNotificationCallback(name_t callback); 	
 	void SetItemDisplay(std::string text, name_t model);
 	
 private:
@@ -55,6 +56,7 @@ private:
 	std::string notif_text = "";
 	int notif_progress = 0;
 	int notif_length = 0;
+	name_t notif_callback;
 	
 	Component<RenderComponent> item_model;
 	Component<AnimationComponent> item_animation;

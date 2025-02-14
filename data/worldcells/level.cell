@@ -44,6 +44,10 @@ trigger 325680370 none 0 -30 1 -3 0 0 0 0 32 sandbox-guy-trigger
 signal 325680370 activate progress 0 -1 ping name sandbox-guy 
 trigger 717473941 none 0 26.249992 1 27.25 0 0 0 0 32 gate-trigger 
 signal 717473941 activate progress 0 -1 ping name gate 
+trigger 723367328 none 0 -13.75 5.75 -17 0 0 0 0 32 witch-trigger 
+signal 723367328 activate progress 0 -1 ping name witch 
+staticwobj 567036969 witch-barrier 0 -10.5 6.5 -17 0 0 0 witch-barrier fullbright 
+signal 567036969 activate progress 0 -1 ping name sandbox-guy 
 group interior-lights 
 group interior 
 decoration 396988251 none 0 -11 5.5 -7.2481527 3.1415927 -1.5660622 3.1415913 0 toilet none 
