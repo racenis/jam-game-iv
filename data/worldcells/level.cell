@@ -64,6 +64,31 @@ signal 895651878 activate car-pickup 0 1 kill none
 decoration 678960398 car-pickup 0 0.5 1 -5.25 0 0 0 0 item/car item-rotate 
 signal 678960398 activate progress 0 -1 ping name car 
 signal 678960398 activate car-pickup 0 1 kill none 
+decoration 188041192 chocolate-pickup1 0 23.5 1 -43.5 0 0 0 0 item/chocolate item-rotate 
+signal 188041192 activate progress 0 -1 ping name car 
+signal 188041192 activate car-pickup 0 1 kill none 
+trigger 367325494 none 0 23.5 1 -43.5 0 0 0 0 32 pickup-trigger 
+signal 367325494 activate progress 0 -1 ping name chocolate 
+signal 367325494 activate chocolate-pickup1 0 1 kill none 
+decoration 709642655 toiletpaper-pickup 0 -7.25 1.25 9 0 0 0 0 item/toiletpaper item-rotate 
+signal 709642655 activate progress 0 -1 ping name car 
+signal 709642655 activate car-pickup 0 1 kill none 
+trigger 471686709 none 0 -7.25 1.25 9 0 0 0 0 32 pickup-trigger 
+signal 471686709 activate progress 0 -1 ping name toiletpaper 
+signal 471686709 activate toiletpaper-pickup 0 1 kill none 
+trigger 663385816 none 0 38.25 1 -20.5 0 0 0 0 32 pickup-trigger 
+signal 663385816 activate progress 0 -1 ping name chocolate 
+signal 663385816 activate chocolate-pickup2 0 1 kill none 
+decoration 318622825 chocolate-pickup2 0 38.25 1 -20.5 0 0 0 0 item/chocolate item-rotate 
+signal 318622825 activate progress 0 -1 ping name car 
+signal 318622825 activate car-pickup 0 1 kill none 
+trigger 654988712 none 0 11 3.75 -12.75 0 0 0 0 32 pickup-trigger 
+signal 654988712 activate progress 0 -1 ping name ball 
+signal 654988712 activate ball-pickup 0 1 kill none 
+decoration 369146990 ball-pickup 0 11 3.75 -12.75 0 0 0 0 item/ball item-rotate 
+signal 369146990 activate progress 0 -1 ping name car 
+signal 369146990 activate car-pickup 0 1 kill none 
+staticwobj 904022868 none 0 11 3 -12.625 0 0 0 gym-shelf gym-shelf 
 group interior-lights 
 group interior 
 decoration 396988251 none 0 -11 5.5 -7.2481527 3.1415927 -1.5660622 3.1415913 0 toilet none 

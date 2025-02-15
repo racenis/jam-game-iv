@@ -114,13 +114,13 @@ void ProgressController::SetItemDisplay(std::string text, name_t model) {
 	item_animation.make();
 	
 	item_model->SetParent(this);
-	item_model->SetModel("item/car");
+	item_model->SetModel(model);
 	item_model->SetLocation({0, 0, -1});
 	item_model->SetLayer(2);
 	item_model->Init();
 	
 	item_animation->SetParent(this);
-	item_animation->SetModel("item/car");
+	item_animation->SetModel(model);
 	item_animation->Init();
 	
 	item_animation->Play("item-rotate", -1, 1.0f, 1.0f);
