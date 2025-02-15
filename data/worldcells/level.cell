@@ -46,10 +46,10 @@ trigger 717473941 none 0 26.249992 1 27.25 0 0 0 0 32 gate-trigger
 signal 717473941 activate progress 0 -1 ping name gate 
 trigger 723367328 none 0 -13.75 5.75 -17 0 0 0 0 32 witch-trigger 
 signal 723367328 activate progress 0 -1 ping name witch 
-staticwobj 567036969 witch-barrier 0 -10.5 6.5 -17 0 0 0 witch-barrier fullbright 
+staticwobj 567036969 witch-barrier 0 -13 6.5 -17 0 0 0 witch-barrier fullbright 
 signal 567036969 activate progress 0 -1 ping name sandbox-guy 
 trigger 825626063 none 0 -36 2.5 21 0 0 0 0 32 pool-trigger 
-signal 825626063 activate progress 0 -1 ping name sandbox-guy 
+signal 825626063 activate progress 0 -1 ping name pool-monster 
 staticwobj 109282509 none 0 -36 -0.5 21 0 0 0 pool-water pool-water 
 staticwobj 808293462 none 0 3.875 2.125 2 0 0 0 chairs-hallway chairs-hallway 
 staticwobj 422008010 none 0 -14 5.75 -3.75 0 0 0 group-interior-a group-interior-a 
@@ -89,6 +89,23 @@ decoration 369146990 ball-pickup 0 11 3.75 -12.75 0 0 0 0 item/ball item-rotate
 signal 369146990 activate progress 0 -1 ping name car 
 signal 369146990 activate car-pickup 0 1 kill none 
 staticwobj 904022868 none 0 11 3 -12.625 0 0 0 gym-shelf gym-shelf 
+creature 160266577 none 0 45.25 0 -2.75 3.1415927 1.0216173 3.1415927 creature/sit 
+trigger 624358745 none 0 44.75 1 -2.75 0 0 0 0 32 sandbox-guy-trigger 
+signal 624358745 activate progress 0 -1 ping name key-guy 
+staticwobj 593253050 ball-barrier 0 15.25 2.25 -7.75 0 1.5707964 0 witch-barrier fullbright 
+signal 593253050 activate progress 0 -1 ping name sandbox-guy 
+trigger 271668757 none 0 16 3 12.25 0 0 0 0 32 pickup-trigger 
+signal 271668757 activate progress 0 -1 ping name giblets 
+signal 271668757 activate giblets-pickup 0 1 kill none 
+decoration 946317630 giblets-pickup 0 16 3 12.25 0 0 0 0 item/giblets item-rotate 
+signal 946317630 activate progress 0 -1 ping name car 
+signal 946317630 activate car-pickup 0 1 kill none 
+staticwobj 739527072 none 0 6 2.25 16.125 0 0 0 eatery-table eatery-table1 
+staticwobj 280873227 none 0 11.5 2.25 16 0 0 0 eatery-table eatery-table2 
+staticwobj 656099468 none 0 15.75 2 12.25 0 0 0 kitchen-table kitchen-table 
 group interior-lights 
 group interior 
 decoration 396988251 none 0 -11 5.5 -7.2481527 3.1415927 -1.5660622 3.1415913 0 toilet none 
+trigger 471770760 none 0 15.5 2.5 -8 0 0 0 0 32 sandbox-guy-trigger 
+signal 471770760 activate progress 0 -1 ping name ball-guy 
+creature 334945741 none 0 15.5 1.5 -7.75 0 0 0 creature/snake 

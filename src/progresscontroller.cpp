@@ -52,6 +52,10 @@ ProgressController::ProgressController() : Entity("progress") {
 		return controller->SetNotification((const char*)array[0]), true;
 	});
 	
+	Script::SetFunction("SetNotificationCallback", {TYPE_NAME}, [](valuearray_t array) -> value_t {
+		return controller->SetNotificationCallback(array[0]), true;
+	});
+	
 	Script::SetFunction("SetItemDisplay", {TYPE_STRING, TYPE_NAME}, [](valuearray_t array) -> value_t {
 		return controller->SetItemDisplay((const char*)array[0], array[1]), true;
 	});

@@ -9,6 +9,8 @@ call :bake gym-shelf 128
 call :bake group-interior-a 128
 call :bake group-interior-b 128
 call :bake witch-barrier 128
+call :bake eatery-table 128
+call :bake kitchen-table 128
 
 rem C:\Users\Poga\Desktop\painis\tram-sdk\devtools\trad\trad level -pad 2
 
