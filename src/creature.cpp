@@ -6,7 +6,7 @@
 
 #include <framework/event.h>
 #include <framework/message.h>
-	
+
 Creature::Creature(const SharedEntityData& shared_data, const ValueArray& field_array) : Entity(shared_data) {
 	ENTITY_IMPLEMENTATION_INITIALIZE
 }
@@ -34,8 +34,23 @@ void Creature::SetParameters() {
 
 void Creature::Load() {
 	mesh.make();
+	mesh->SetParent(this);
 	mesh->SetModel(model);
 	mesh->Init();
+	
+	armature.make();
+	armature->SetParent(this);
+	armature->SetModel(model);
+	armature->Init();
+	
+	mesh->SetArmature(armature.get());
+	
+	frame.make(Event::FRAME, this);
+	
+	if (model == "creature/pool") {
+		armature->Play("pool-idle", -1, 1.0f, 1.0f);
+		rotate_360 = true;
+	}
 	
 	SetFlag(LOADED, true);
 	
@@ -43,6 +58,8 @@ void Creature::Load() {
 }
 
 void Creature::Unload() {
+	frame.clear();
+	
 	SetFlag(LOADED, false);
 }
 
@@ -51,10 +68,54 @@ void Creature::Serialize() {
 }
 
 void Creature::EventHandler(Event& evt) {
-
+	if (evt.type != Event::FRAME) return;
+	
+	if (head == vec3(0.0f, 0.0f, 0.0f)) {
+		if (armature->GetModel()->GetStatus() == Resource::READY) {
+			for (auto& bone : armature->GetModel()->GetArmature()) {
+				if (bone.name == "Head") {
+					head = bone.head;
+				}
+			}
+		}
+	}
+	
+	vec3 to_player = glm::normalize(Render::GetViewPosition() - (location + rotation * head));
+	vec3 lookdir = glm::inverse(rotation) * to_player;
+	
+	quat new_lookat = {1.0f, 0.0f, 0.0f, 0.0f};
+	
+	if (rotate_360 || glm::dot(to_player, rotation * DIRECTION_FORWARD) > 0.0f) {
+		float y = atan2f(lookdir.x, lookdir.z);
+		float x = glm::dot(DIRECTION_UP, lookdir);
+		
+		new_lookat = vec3(x, 0.0f, -y + 3.14f);
+	}
+	
+	if (glm::dot(new_lookat, lookat_rot) < 0.0f) new_lookat = -new_lookat;
+	
+	lookat_rot = glm::mix(lookat_rot, new_lookat, 0.1f);
+	
+	Render::Keyframe frame;
+	frame.rotation = lookat_rot;
+	
+	armature->SetKeyframe("Head", frame);
 }
 
 void Creature::MessageHandler(Message& msg) {
-
+	if (msg.type != Message::PING) return;
+	
+	if (model == "creature/guard") {
+		armature->Play("guard-die", 1, 1.0f, 1.0f, true, true);
+	}
+	
+	if (model == "creature/snake") {
+		armature->Play("snake-get-out", 1, 1.0f, 1.0f, true, true);
+	}
+	
+	if (model == "creature/worm") {
+		armature->Play("worm-open", 1, 1.0f, 1.0f, true, true);
+	}
+	
 }
 	

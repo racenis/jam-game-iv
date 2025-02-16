@@ -3,15 +3,17 @@ rem C:\Users\Poga\Desktop\painis\tram-sdk\devtools\tbsp\tbsp centraltirgus -worl
 rem C:\Users\Poga\Desktop\painis\tram-sdk\devtools\tmap\tmap centraltirgus 1024
 rem C:\Users\Poga\Desktop\painis\tram-sdk\devtools\trad\trad centraltirgus centraltirgus-worldspawn 1024 1024 -pad 2
 
-call :bake pool-water 128
+call :bake pool-water 64
 call :bake chairs-hallway 128
 call :bake gym-shelf 128
 call :bake group-interior-a 128
 call :bake group-interior-b 128
 call :bake witch-barrier 128
 call :bake eatery-table 128
-call :bake kitchen-table 128
-call :bake gate 128
+call :bake kitchen-table 64
+call :bake gate 64
+
+C:\Users\Poga\Desktop\painis\tram-sdk\devtools\tmap\tmap worldspawn 1024
 
 rem C:\Users\Poga\Desktop\painis\tram-sdk\devtools\trad\trad level -pad 2
 

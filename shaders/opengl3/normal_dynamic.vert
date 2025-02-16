@@ -97,10 +97,10 @@ void main() {
 	float attenuation3 = max(dot(n, v_to_light3), 0.0) * (1.0 / (1.0 + 0.09 * distance3 + 0.032 * (distance3 * distance3)));
 	float attenuation4 = max(dot(n, v_to_light4), 0.0) * (1.0 / (1.0 + 0.09 * distance4 + 0.032 * (distance4 * distance4)));
 	
-	float directionality1 = clamp(pow(max(dot(vec3(scene_lights[model_lights.x].cc), -v_to_light1), 0.0), scene_lights[model_lights.x].cc.w), 0.0, 1.0);
-	float directionality2 = clamp(pow(max(dot(vec3(scene_lights[model_lights.y].cc), -v_to_light2), 0.0), scene_lights[model_lights.y].cc.w), 0.0, 1.0);
-	float directionality3 = clamp(pow(max(dot(vec3(scene_lights[model_lights.z].cc), -v_to_light3), 0.0), scene_lights[model_lights.z].cc.w), 0.0, 1.0);
-	float directionality4 = clamp(pow(max(dot(vec3(scene_lights[model_lights.w].cc), -v_to_light4), 0.0), scene_lights[model_lights.w].cc.w), 0.0, 1.0);
+	//float directionality1 = clamp(pow(max(dot(vec3(scene_lights[model_lights.x].cc), -v_to_light1), 0.0), scene_lights[model_lights.x].cc.w), 0.0, 1.0);
+	//float directionality2 = clamp(pow(max(dot(vec3(scene_lights[model_lights.y].cc), -v_to_light2), 0.0), scene_lights[model_lights.y].cc.w), 0.0, 1.0);
+	//float directionality3 = clamp(pow(max(dot(vec3(scene_lights[model_lights.z].cc), -v_to_light3), 0.0), scene_lights[model_lights.z].cc.w), 0.0, 1.0);
+	//float directionality4 = clamp(pow(max(dot(vec3(scene_lights[model_lights.w].cc), -v_to_light4), 0.0), scene_lights[model_lights.w].cc.w), 0.0, 1.0);
 
 	// take in ambient color and add sun color
 	vert_color = vec3(ambient_color);
@@ -108,10 +108,10 @@ void main() {
 	vert_color *= sun_weight;
 		
 	// add in light colors
-	vert_color += vec3(scene_lights[model_lights.x].bb) * attenuation1 * directionality1;
-	vert_color += vec3(scene_lights[model_lights.y].bb) * attenuation2 * directionality2;
-	vert_color += vec3(scene_lights[model_lights.z].bb) * attenuation3 * directionality3;
-	vert_color += vec3(scene_lights[model_lights.w].bb) * attenuation4 * directionality4;
+	vert_color += vec3(scene_lights[model_lights.x].bb) * attenuation1; //* directionality1;
+	vert_color += vec3(scene_lights[model_lights.y].bb) * attenuation2; //* directionality2;
+	vert_color += vec3(scene_lights[model_lights.z].bb) * attenuation3; //* directionality3;
+	vert_color += vec3(scene_lights[model_lights.w].bb) * attenuation4; //* directionality4;
 	
 	// calculate specular intensities
 	vec3 view_dir = normalize(view_pos - v);
@@ -122,10 +122,10 @@ void main() {
 	
 	// calculate specular color
 	vec3 specular_color = vec3(0.0, 0.0, 0.0);
-	specular_color += specular[TexIndex].x * specular1 * vec3(scene_lights[model_lights.x].bb) * directionality1;
-	specular_color += specular[TexIndex].x * specular2 * vec3(scene_lights[model_lights.y].bb) * directionality2;
-	specular_color += specular[TexIndex].x * specular3 * vec3(scene_lights[model_lights.z].bb) * directionality3;
-	specular_color += specular[TexIndex].x * specular4 * vec3(scene_lights[model_lights.w].bb) * directionality4;
+	specular_color += specular[TexIndex].x * specular1 * vec3(scene_lights[model_lights.x].bb); //* directionality1;
+	specular_color += specular[TexIndex].x * specular2 * vec3(scene_lights[model_lights.y].bb); //* directionality2;
+	specular_color += specular[TexIndex].x * specular3 * vec3(scene_lights[model_lights.z].bb); //* directionality3;
+	specular_color += specular[TexIndex].x * specular4 * vec3(scene_lights[model_lights.w].bb); //* directionality4;
 	
 	// add material color
 	vert_color *= vec3(colors[TexIndex]);

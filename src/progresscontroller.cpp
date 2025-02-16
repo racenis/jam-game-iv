@@ -119,8 +119,14 @@ void ProgressController::SetItemDisplay(std::string text, name_t model) {
 	
 	item_model->SetParent(this);
 	item_model->SetModel(model);
-	item_model->SetLocation({0, 0, -1});
 	item_model->SetLayer(2);
+	
+	if (model == "item/scooter" || model == "item/giblets" || model == "item/key") {
+		item_model->SetLocation({0, 0, -2});
+	} else {
+		item_model->SetLocation({0, 0, -1});
+	}
+	
 	item_model->Init();
 	
 	item_animation->SetParent(this);
@@ -169,6 +175,10 @@ void ProgressController::EventHandler(Event& evt) {
 			                                    + std::to_string(ploc.y) + " "
 									            + std::to_string(ploc.z);
 			
+			if (ploc.y < -10.0f) {
+				Entity::Find("player")->SetLocation(Entity::Find("player-start")->GetLocation());
+			}
+			
 			for (auto variable : variable_debugs) {
 				value_t value = Script::GetGlobal(variable);
 				text += "\n";
@@ -216,6 +226,8 @@ void ProgressController::EventHandler(Event& evt) {
 				Script::CallFunction("ScriptProgress", {notif_callback});
 				notif_callback = "none";
 			}
+			
+			
 			
 			/*if (notif_progress) {
 				std::string text = notif_text.substr(0, ++notif_length);

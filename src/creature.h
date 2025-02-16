@@ -4,7 +4,10 @@
 #include <framework/entity.h>
 #include <framework/serialization.h>
 
+#include <framework/event.h>
+
 #include <components/render.h>
+#include <components/animation.h>
 #include <components/physics.h>
 
 #include <templates/macros.h>
@@ -32,7 +35,15 @@ private:
 	TRAM_SDK_PROPERTY("model", FIELD_SERIALIZE)
 	name_t model;
 	
+	bool rotate_360 = false;
+	vec3 head = {0.0f, 0.0f, 0.0f};
+	
+	EventListener frame;
+	
+	quat lookat_rot = {1.0f, 0.0f, 0.0f, 0.0f};
+	
 	Component<RenderComponent> mesh;
+	Component<AnimationComponent> armature;
 	Component<PhysicsComponent> collider;
 };
 	

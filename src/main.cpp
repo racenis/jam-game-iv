@@ -60,6 +60,7 @@ int main(int argc, const char** argv) {
 	Light::Register();
     Crate::Register();
     Sound::Register();
+    Marker::Register();
     Decoration::Register();
     Trigger::Register();
     StaticWorldObject::Register();
@@ -90,6 +91,10 @@ int main(int argc, const char** argv) {
 	Language::Load("en");
 	
 	Animation::Find("item-rotate")->Load();
+	Animation::Find("pool-idle")->Load();
+	Animation::Find("snake-get-out")->Load();
+	Animation::Find("guard-die")->Load();
+	Animation::Find("worm-open")->Load();
 	
 	ProgressController::Init();
 	
@@ -101,9 +106,9 @@ int main(int argc, const char** argv) {
 	level->Load();
 	
 	Player* player = new Player;
-	player->SetLocation({0, 25, 0});
+	//player->SetLocation({0, 25, 0});
+	player->SetLocation(Entity::Find("player-start")->GetLocation());
 	player->Load();
-	
 	
 	Ext::Camera::FirstPersonCamera* camera = new Ext::Camera::FirstPersonCamera;
 	camera->SetMouselook(true);
@@ -155,7 +160,7 @@ void main_loop() {
 	Loader::Update();
 	
 	AnimationComponent::Update();
-	ControllerComponent::Update();
+	if (!Async::GetWaitingResources()) ControllerComponent::Update();
 	
 	Ext::Camera::Update();
 	

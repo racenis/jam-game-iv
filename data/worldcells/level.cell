@@ -1,6 +1,7 @@
 CELLv3 level 0 1 
 version creature 160738611 
 staticwobj 420 worldspawn 0 0 0 0 0 0 0 worldspawn lightmap/worldspawn 
+marker 519521680 player-start 0 23.72793 1.5609368 24.322138 0 0 0 
 group exterior-lights 
 light 194918932 none 0 -4 4 9 0 0 0 1 1 1 1 1 1 1 1 
 light 245652935 none 0 4 4 9 0 0 0 1 1 1 1 1 1 1 1 
@@ -36,7 +37,7 @@ light 440130253 none 0 -10.251201 6.9659595 -7.1812162 0 0 0 0.2 0.2 0.2 1 1 1 1
 light 545242324 none 0 -16 3 0 0 0 0 0.75 0.75 0.75 1 1 1 1 1 
 light 451499438 none 0 0 3 2 0 0 0 0.75 0.75 0.75 1 1 1 1 1 
 light 448879209 none 0 17.5 6.75 8.75 0 0 0 0.75 0.75 0.75 1 1 1 1 1 
-light 214852625 none 0 15.25 3 -16.5 0 0 0 0.75 0.75 0.75 1 1 1 1 1 
+light 214852625 none 0 15.25 3 -16.5 0 0 0 1 1 1 1 1 1 1 1 
 light 487694764 none 0 15 6.75 -10 0 0 0 0.75 0.75 0.75 1 1 1 1 1 
 light 198243030 none 0 11.75 7 -17 0 0 0 0.75 0.75 0.75 1 1 1 1 1 
 light 134705611 none 0 15.5 3.25 -6.75 0 0 0 0.5 0.5 0.5 1 1 1 1 1 
@@ -44,9 +45,9 @@ light 882710158 none 0 5.75 4 16 0 0 0 0.75 0.75 0.75 1 1 1 1 1
 light 318481821 none 0 18 3.25 12.5 0 0 0 0.5 0.5 0.5 1 1 1 1 1 
 group exterior 
 creature 821802386 none 0 -30.152267 0 -3 0 0.54917866 0 creature/sit 
-creature 451551867 none 0 -11 5 -7.2492533 3.141592 -1.570451 3.141592 creature/worm 
-creature 601419071 none 0 -10.362826 5.586447 -5.6326976 0 0.54917866 0 creature/sit 
-creature 509227403 none 0 -10.300047 5 -17.043346 3.1415927 1.5142082 3.1415927 creature/guard 
+creature 451551867 toilet-creature 0 -11 5.1357074 -7.2492533 3.141592 -1.570451 3.141592 creature/worm 
+creature 601419071 none 0 -13.224325 5.9222035 -4.544625 3.1415927 1.0472094 3.1415927 creature/sit2 
+creature 509227403 witch-creature 0 -10.300047 5 -17.043346 3.1415927 1.5142082 3.1415927 creature/guard 
 trigger 325680370 none 0 -30 1 -3 0 0 0 0 32 sandbox-guy-trigger 
 signal 325680370 activate progress 0 -1 ping name sandbox-guy 
 trigger 717473941 none 0 26.249992 1 27.25 0 0 0 0 32 gate-trigger 
@@ -57,16 +58,16 @@ staticwobj 567036969 witch-barrier 0 -13 6.5 -17 0 0 0 witch-barrier fullbright
 signal 567036969 activate progress 0 -1 ping name sandbox-guy 
 trigger 825626063 none 0 -36 2.5 21 0 0 0 0 32 pool-trigger 
 signal 825626063 activate progress 0 -1 ping name pool-monster 
-staticwobj 109282509 none 0 -36 -0.5 21 0 0 0 pool-water pool-water 
-staticwobj 808293462 none 0 3.875 2.125 2 0 0 0 chairs-hallway chairs-hallway 
-staticwobj 422008010 none 0 -14 5.75 -3.75 0 0 0 group-interior-a group-interior-a 
-staticwobj 342725598 none 0 12.75 5.75 -15.75 0 0 0 group-interior-b group-interior-b 
+button 109282509 none 0 -36 -0.5 21 0 0 0 0 pool-water lightmap/pool-water 0 0.5 0 0 1 0 0 0 0 none none 
+staticwobj 808293462 none 0 3.875 2.175 2 0 0 0 chairs-hallway lightmap/chairs-hallway 
+staticwobj 422008010 none 0 -14 5.8 -3.75 0 0 0 group-interior-a lightmap/group-interior-a 
+staticwobj 342725598 none 0 12.75 5.8 -15.75 0 0 0 group-interior-b lightmap/group-interior-b 
 trigger 201805591 none 0 -11 5.75 -7.25 0 0 0 0 32 toilet-trigger 
 signal 201805591 activate progress 0 -1 ping name toilet 
 trigger 420240966 none 0 2.5 2.5 2 0 0 0 0 32 trigger-confused 
 signal 420240966 activate progress 0 -1 ping name confused 
 trigger 895651878 none 0 0.5 1 -5.25 0 0 0 0 32 pickup-trigger 
-signal 895651878 activate progress 0 -1 ping name car 
+signal 895651878 activate progress 0 1 ping name car 
 signal 895651878 activate car-pickup 0 1 kill none 
 decoration 678960398 car-pickup 0 0.5 1 -5.25 0 0 0 0 item/car item-rotate 
 signal 678960398 activate progress 0 -1 ping name car 
@@ -75,7 +76,7 @@ decoration 188041192 chocolate-pickup1 0 23.5 1 -43.5 0 0 0 0 item/chocolate ite
 signal 188041192 activate progress 0 -1 ping name car 
 signal 188041192 activate car-pickup 0 1 kill none 
 trigger 367325494 none 0 23.5 1 -43.5 0 0 0 0 32 pickup-trigger 
-signal 367325494 activate progress 0 -1 ping name chocolate 
+signal 367325494 activate progress 0 1 ping name chocolate 
 signal 367325494 activate chocolate-pickup1 0 1 kill none 
 decoration 709642655 toiletpaper-pickup 0 -7.25 1.25 9 0 0 0 0 item/toiletpaper item-rotate 
 signal 709642655 activate progress 0 -1 ping name car 
@@ -84,35 +85,42 @@ trigger 471686709 none 0 -7.25 1.25 9 0 0 0 0 32 pickup-trigger
 signal 471686709 activate progress 0 -1 ping name toiletpaper 
 signal 471686709 activate toiletpaper-pickup 0 1 kill none 
 trigger 663385816 none 0 38.25 1 -20.5 0 0 0 0 32 pickup-trigger 
-signal 663385816 activate progress 0 -1 ping name chocolate 
+signal 663385816 activate progress 0 1 ping name chocolate 
 signal 663385816 activate chocolate-pickup2 0 1 kill none 
 decoration 318622825 chocolate-pickup2 0 38.25 1 -20.5 0 0 0 0 item/chocolate item-rotate 
 signal 318622825 activate progress 0 -1 ping name car 
 signal 318622825 activate car-pickup 0 1 kill none 
 trigger 654988712 none 0 11 3.75 -12.75 0 0 0 0 32 pickup-trigger 
-signal 654988712 activate progress 0 -1 ping name ball 
+signal 654988712 activate progress 0 1 ping name ball 
 signal 654988712 activate ball-pickup 0 1 kill none 
 decoration 369146990 ball-pickup 0 11 3.75 -12.75 0 0 0 0 item/ball item-rotate 
 signal 369146990 activate progress 0 -1 ping name car 
 signal 369146990 activate car-pickup 0 1 kill none 
-staticwobj 904022868 none 0 11 3 -12.625 0 0 0 gym-shelf gym-shelf 
-creature 160266577 none 0 45.25 0 -2.75 3.1415927 1.0216173 3.1415927 creature/sit 
+staticwobj 904022868 none 0 11 2.95 -12.68 0 0 0 gym-shelf lightmap/gym-shelf 
+creature 160266577 none 0 45.25 0 -2.75 3.1415927 1.0216173 3.1415927 creature/sit2 
 trigger 624358745 none 0 44.75 1 -2.75 0 0 0 0 32 sandbox-guy-trigger 
 signal 624358745 activate progress 0 -1 ping name key-guy 
 staticwobj 593253050 ball-barrier 0 15.25 2.25 -7.75 0 1.5707964 0 witch-barrier fullbright 
 signal 593253050 activate progress 0 -1 ping name sandbox-guy 
 trigger 271668757 none 0 16 3 12.25 0 0 0 0 32 pickup-trigger 
-signal 271668757 activate progress 0 -1 ping name giblets 
+signal 271668757 activate progress 0 1 ping name giblets 
 signal 271668757 activate giblets-pickup 0 1 kill none 
 decoration 946317630 giblets-pickup 0 16 3 12.25 0 0 0 0 item/giblets item-rotate 
 signal 946317630 activate progress 0 -1 ping name car 
 signal 946317630 activate car-pickup 0 1 kill none 
-staticwobj 739527072 none 0 6 2.25 16.125 0 0 0 eatery-table eatery-table1 
-staticwobj 280873227 none 0 11.5 2.25 16 0 0 0 eatery-table eatery-table2 
-staticwobj 656099468 none 0 15.75 2 12.25 0 0 0 kitchen-table kitchen-table 
+staticwobj 739527072 none 0 6 2.3 16.125 0 0 0 eatery-table lightmap/eatery-table1 
+staticwobj 280873227 none 0 11.5 2.3 16 0 0 0 eatery-table lightmap/eatery-table2 
+staticwobj 656099468 none 0 15.75 2 12.25 0 0 0 kitchen-table lightmap/kitchen-table 
+staticwobj 202607388 gate 0 27.375015 1.0625 27.875004 0 0 0 gate lightmap/gate 
+staticwobj 784122527 chair-barrier 0 3.75 2.25 2 1.5707964 0 0 witch-barrier fullbright 
+signal 784122527 activate progress 0 -1 ping name sandbox-guy 
+creature 428427770 pool-creature 0 -33 0.5 21.25 0 0 0 creature/pool 
+trigger 749698259 none 0 47.531075 1 48.961838 0 -0.7853982 0 0 32 gate-trigger 
+signal 749698259 activate progress 0 -1 ping name end 
+creature 342310932 none 0 -8.75 5.017986 -6.5 -9.7048535e-08 1.1886569 -1.17215414e-07 creature/sit 
 group interior-lights 
 group interior 
 decoration 396988251 none 0 -11 5.5 -7.2481527 3.1415927 -1.5660622 3.1415913 0 toilet none 
 trigger 471770760 none 0 15.5 2.5 -8 0 0 0 0 32 sandbox-guy-trigger 
 signal 471770760 activate progress 0 -1 ping name ball-guy 
-creature 334945741 none 0 15.5 1.5 -7.75 0 0 0 creature/snake 
+creature 334945741 ball-creature 0 15.5 1.5 -7.75 0 0 0 creature/snake 
