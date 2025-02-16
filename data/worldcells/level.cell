@@ -1,4 +1,4 @@
-CELLv3 level 0 0 
+CELLv3 level 0 1 
 version creature 160738611 
 staticwobj 420 worldspawn 0 0 0 0 0 0 0 worldspawn lightmap/worldspawn 
 group exterior-lights 
@@ -35,6 +35,13 @@ light 441834120 none 0 -17.983624 7 -3 0 0 0 0.75 0.75 0.75 1 1 1 1 1
 light 440130253 none 0 -10.251201 6.9659595 -7.1812162 0 0 0 0.2 0.2 0.2 1 1 1 1 1 
 light 545242324 none 0 -16 3 0 0 0 0 0.75 0.75 0.75 1 1 1 1 1 
 light 451499438 none 0 0 3 2 0 0 0 0.75 0.75 0.75 1 1 1 1 1 
+light 448879209 none 0 17.5 6.75 8.75 0 0 0 0.75 0.75 0.75 1 1 1 1 1 
+light 214852625 none 0 15.25 3 -16.5 0 0 0 0.75 0.75 0.75 1 1 1 1 1 
+light 487694764 none 0 15 6.75 -10 0 0 0 0.75 0.75 0.75 1 1 1 1 1 
+light 198243030 none 0 11.75 7 -17 0 0 0 0.75 0.75 0.75 1 1 1 1 1 
+light 134705611 none 0 15.5 3.25 -6.75 0 0 0 0.5 0.5 0.5 1 1 1 1 1 
+light 882710158 none 0 5.75 4 16 0 0 0 0.75 0.75 0.75 1 1 1 1 1 
+light 318481821 none 0 18 3.25 12.5 0 0 0 0.5 0.5 0.5 1 1 1 1 1 
 group exterior 
 creature 821802386 none 0 -30.152267 0 -3 0 0.54917866 0 creature/sit 
 creature 451551867 none 0 -11 5 -7.2492533 3.141592 -1.570451 3.141592 creature/worm 
