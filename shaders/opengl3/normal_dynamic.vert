@@ -65,6 +65,7 @@ void main() {
 	// transform to world space
     gl_Position = projection * view * model * posed;
 	
+	float fog = 1.0 - clamp((gl_Position.w * 0.125) - 1.0, 0.0, 1.0);
 	
 	// do the same, but with the normal vector
 	vec4 normal1 = BoneWeight.x * bone[BoneIndex.x] * vec4(Normal, 1.0);
@@ -133,6 +134,8 @@ void main() {
 	// add specular color
 	vert_color_add = mix(vec3(0.0, 0.0, 0.0), specular_color, specular[TexIndex].z);
 	vert_color += mix(specular_color, vec3(0.0, 0.0, 0.0), specular[TexIndex].z);
+	
+	vert_color *= fog;
 	
     vert_uv = VertUV + vec2(texture_transforms[TexIndex]);
 	vert_tex_index = TexIndex;

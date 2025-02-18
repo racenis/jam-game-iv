@@ -9,6 +9,7 @@ call :bake gym-shelf 128
 call :bake group-interior-a 128
 call :bake group-interior-b 128
 call :bake witch-barrier 128
+call :bake gate-barrier 128
 call :bake eatery-table 128
 call :bake kitchen-table 64
 call :bake gate 64

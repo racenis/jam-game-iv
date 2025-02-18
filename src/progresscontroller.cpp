@@ -20,7 +20,8 @@
 
 static ProgressController* controller = nullptr;
 
-std::vector<name_t> variable_debugs;
+static std::vector<name_t> variable_debugs;
+static bool debugs = false;
 
 ProgressController::ProgressController() : Entity("progress") {
 	frame.make(Event::FRAME, this);
@@ -29,7 +30,7 @@ ProgressController::ProgressController() : Entity("progress") {
 	auto comp = PoolProxy<RenderComponent>::New();
 	comp->SetParent(this);
 	comp->SetModel("dev/light");
-	comp->SetLocation({0, 2, -5});
+	comp->SetLocation({-5, 5, 16});
 	comp->Init();
 	
 	Script::SetFunction("ResetProgressState", {}, [](valuearray_t array) -> value_t {
@@ -58,6 +59,14 @@ ProgressController::ProgressController() : Entity("progress") {
 	
 	Script::SetFunction("SetItemDisplay", {TYPE_STRING, TYPE_NAME}, [](valuearray_t array) -> value_t {
 		return controller->SetItemDisplay((const char*)array[0], array[1]), true;
+	});
+	
+	UI::BindKeyboardKey(UI::KEY_H, [](){
+		Script::CallFunction("Hint", {});
+	});
+	
+	UI::BindKeyboardKey(UI::KEY_P, [](){
+		debugs = !debugs;
 	});
 }
 
@@ -91,11 +100,16 @@ void ProgressController::Serialize() {
 
 }
 
+/// Draws text to screen as dialog.
 void ProgressController::SetNPCDialog(std::string dialog) {
-	//npc_text = dialog;
-	//npc_progress = dialog.length() + 120;
-	//npc_length = 0;
-	npc_queue.emplace(dialog);
+	static uint32_t last_dialog = 0;
+	// this should limit NPC dialogs queued up to 3 + any other dialogs that get
+	// added during the same tick, which should prevent any NPC's dialog from
+	// getting cut off
+	if (npc_queue.size() < 3 || last_dialog == GetTick()) {
+		npc_queue.emplace(dialog);
+	}
+	last_dialog = GetTick();
 }
 
 void ProgressController::SetNPCCallback(name_t callback) {
@@ -106,13 +120,17 @@ void ProgressController::SetNotificationCallback(name_t callback) {
 	notif_callback = callback;
 }
 
+/// Draws text to screen as a notification.
 void ProgressController::SetNotification(std::string notif) {
-	//notif_text = notif;
-	//notif_progress = notif.length() + 120;
-	//notif_length = 0;
-	notif_queue.emplace(notif);
+	static uint32_t last_notification = 0;
+	// same as SetNPCDialog()
+	if (notif_queue.size() < 3 || last_notification == GetTick()) {
+		notif_queue.emplace(notif);
+	}
+	last_notification = GetTick();
 }
 
+/// Shows a spinning item notification.
 void ProgressController::SetItemDisplay(std::string text, name_t model) {
 	item_model.make();
 	item_animation.make();
@@ -137,13 +155,10 @@ void ProgressController::SetItemDisplay(std::string text, name_t model) {
 	
 	item_model->SetArmature(item_animation);
 	
-	
 	notif_queue.emplace(text, true);
-	//notif_text = text;
-	//notif_progress = -1;
-	//notif_length = 0;
 }
 
+// helpers for debug text
 static std::string flag_helper(const char* text, bool value) {
 	std::string result = text;
 	while (result.length() < 21) result += " ";
@@ -168,30 +183,34 @@ void ProgressController::EventHandler(Event& evt) {
 		case Event::FRAME: {
 			
 			// draw the debug text in the top left corner
-			std::string text = "Nightmare Exploration Simulator PRERELEASE";
-			
-			vec3 ploc = Entity::Find("player")->GetLocation();
-			text += std::string("\nPosition: ") + std::to_string(ploc.x) + " "
-			                                    + std::to_string(ploc.y) + " "
-									            + std::to_string(ploc.z);
-			
-			if (ploc.y < -10.0f) {
-				Entity::Find("player")->SetLocation(Entity::Find("player-start")->GetLocation());
-			}
-			
-			for (auto variable : variable_debugs) {
-				value_t value = Script::GetGlobal(variable);
-				text += "\n";
+			if (debugs) {
+				std::string text = "Nightmare Exploration Simulator v1.0";
 				
-				if (value.IsInt()) {
-					text += flag_helper(variable, value.GetInt());
-				} else {
-					text += flag_helper(variable, (bool)value);
+				vec3 ploc = Entity::Find("player")->GetLocation();
+				text += std::string("\nPosition: ") + std::to_string(ploc.x) + " "
+													+ std::to_string(ploc.y) + " "
+													+ std::to_string(ploc.z);
+				
+				text += "\nToggle this menu by pressing [P] key";
+				
+				if (ploc.y < -10.0f) {
+					Entity::Find("player")->SetLocation(Entity::Find("player-start")->GetLocation());
 				}
-			}
-			
-			if (UI::GetInputState() != UI::STATE_MENU_OPEN) {
-				Render::AddText(5, 0, text.c_str());
+				
+				for (auto variable : variable_debugs) {
+					value_t value = Script::GetGlobal(variable);
+					text += "\n";
+					
+					if (value.IsInt()) {
+						text += flag_helper(variable, value.GetInt());
+					} else {
+						text += flag_helper(variable, (bool)value);
+					}
+				}
+				
+				if (UI::GetInputState() != UI::STATE_MENU_OPEN) {
+					Render::AddText(5, 0, text.c_str());
+				}
 			}
 			
 			
@@ -212,6 +231,8 @@ void ProgressController::EventHandler(Event& evt) {
 				npc_callback = "none";
 			}
 			
+			// draw the notifications
+			
 			if (notif_queue.size()) {
 				if (notif_queue.front().IsEnd()) {
 					notif_queue.pop();
@@ -226,24 +247,6 @@ void ProgressController::EventHandler(Event& evt) {
 				Script::CallFunction("ScriptProgress", {notif_callback});
 				notif_callback = "none";
 			}
-			
-			
-			
-			/*if (notif_progress) {
-				std::string text = notif_text.substr(0, ++notif_length);
-				notif_progress--;
-				
-				GUI::PushFrameRelative(GUI::FRAME_BOTTOM, 100);
-					GUI::SetFont(Ext::Menu::FONT_PIXELART, GUI::TEXT);
-					GUI::Text(text.c_str(), GUI::TEXT_CENTER);
-					GUI::RestoreFont();
-				GUI::PopFrame();
-				
-				if (!notif_progress && notif_callback) {
-					Script::CallFunction("ScriptProgress", {notif_callback});
-					notif_callback = "none";
-				}
-			}*/
 			
 		} break;
 		case Event::KEYPRESS:

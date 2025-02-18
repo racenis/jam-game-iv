@@ -2,8 +2,6 @@
 
 ResetProgressState()
 
-function VariableDebug() end
-
 found_key = false;				VariableDebug("found_key")
 found_car = false;				VariableDebug("found_car")
 found_ball = false;				VariableDebug("found_ball")
@@ -27,6 +25,38 @@ opened_gate = false;			VariableDebug("opened_gate")
 --found_key = true
 --found_spray = true
 --found_giblets = true
+
+function Hint()
+	if not searching_chocolate then
+		SetNotification("Find the toilet creature.")
+	elseif not found_car then
+		SetNotification("Find the car.")
+	elseif not gave_sandbox_guy_car then
+		SetNotification("Give sandox guy the car.")
+	elseif not found_all_chocolate then
+		SetNotification("Find the sandbox chocolate.")
+	elseif not found_spray then
+		SetNotification("Go back to toilet creature.")
+	elseif not killed_witch then
+		SetNotification("Spray the witch.")
+	elseif not found_ball then
+		SetNotification("Find the ball.")
+	elseif not gave_away_ball then
+		SetNotification("Give the ball to the doorway creature.")
+	elseif not found_giblets then
+		SetNotification("Find the giblets.")
+	elseif not found_scooter then
+		SetNotification("Find the pool creature.")
+	elseif not found_key then
+		SetNotification("Find the key guy.")
+	elseif not found_toiletpaper then
+		SetNotification("Find the toilet paper.")
+	elseif not opened_gate then
+		SetNotification("Open the gate.")
+	else
+		SetNotification("That's it, you're done!")
+	end
+end
 
 function ScriptProgress(t)
 	print("Received progress trigger:", t)
@@ -54,10 +84,10 @@ function ScriptProgress(t)
 				tram.entity.Find("gate"):SetLocation(gate_pos)
 			end)
 			
-			--tram.message.Send({type = tram.message.KILL,
-            --                   sender = 0,
-            --                   receiver = tram.entity.Find("gate"):GetID(),
-            --                   data = nil}, 0.0)
+			tram.message.Send({type = tram.message.KILL,
+                               sender = 0,
+                               receiver = tram.entity.Find("gate-barrier"):GetID(),
+                               data = nil}, 0.0)
 			
 			opened_gate = true
 		end
@@ -115,7 +145,8 @@ function ScriptProgress(t)
 		
 	elseif t == "toilet" then
 		if found_spray then
-		
+			SetNPCDialog("Go spray the witch!")
+			
 		elseif found_all_chocolate then
 			SetNPCDialog("You have brought me 3 chocolates!")
 			SetNPCDialog("You can now receive the reward!")
@@ -140,8 +171,7 @@ function ScriptProgress(t)
 		if found_spray and not killed_witch then
 			SetNotification("You spray the witch.")
 			SetNotification("The witch is dead.")
-			--SetNotificationCallback("witch-sprayed")
-			
+
 			local message = {type = tram.message.KILL,
 			                 sender = 0,
 					         receiver = tram.entity.Find("witch-barrier"):GetID(),
@@ -157,7 +187,6 @@ function ScriptProgress(t)
 			print("SENDING!!!!")
 			
 			killed_witch = true
-			--message.type, message.sender, message.receiver, message.data
 		elseif not killed_witch then
 			local dialogs = {
 				"I am busy!!!",
@@ -170,14 +199,12 @@ function ScriptProgress(t)
 			witch_text = witch_text + 1
 		end
 	elseif t == "sandbox-guy" then
-		--if searching_chocolate and found_car then
-		if found_car then
+		if found_car and not gave_sandbox_guy_car then
 			SetNPCDialog("Waow! That is my car!")
 			SetNPCDialog("Here: take this --")
-			found_car = false
-			searching_chocolate = false
+			gave_sandbox_guy_car = true
 			SetNPCCallback("chocolate")
-		elseif searching_chocolate then
+		elseif searching_chocolate and not gave_sandbox_guy_car then
 			SetNPCDialog("I lost my car!")
 			SetNPCDialog("If you find it, I will trade my chocolate")
 			SetNPCDialog("that I found while digging in the sand!")
@@ -212,7 +239,6 @@ function ScriptProgress(t)
 		elseif found_giblets and not found_scooter then
 			SetNotification("Pool monster delivers scooter.")
 			SetNotificationCallback("scooter")
-			--SetNPCCallback("scooter")
 		end	
 	else 
 		print("Unrecognized progress:", t)

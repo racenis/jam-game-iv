@@ -1,7 +1,7 @@
 -- Nightmare Explorer v1.0 initialization code
 
 tram.ui.SetWindowTitle("Nightmare Explorer v1.0")
-tram.ui.SetWindowSize(640, 480)
+--tram.ui.SetWindowSize(640, 480)
 
 -- this directional light direction looks pretty good with our level.
 -- it won't actually be seen normally, since we set the level to have interior

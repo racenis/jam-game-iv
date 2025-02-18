@@ -24,25 +24,25 @@ class PrinterFormatter {
 public:
 	PrinterFormatter(std::string text, bool indefinite = false) {
 		this->text = text;
-		this->progress = text.length() + 120;
+		this->progress = (text.length() * (1.0f/60.0f)) + 2.0f;
 		this->length = 0;
-		
+
 		if (indefinite) {
-			this->progress = -1;
+			this->progress = INFINITY;
 		}
 	}
 	
 	std::string GetText() {
-		progress--;
+		progress -= GetDeltaTime();
 		return text.substr(0, ++length);	
 	}
 	
 	bool IsEnd() {
-		return !progress;
+		return progress < 0.0f;
 	}
 private:
 	std::string text = "";
-	int progress = 0; // TODO: have progress be in seconds, not ticks
+	float progress = 0.0f;
 	int length = 0;
 };
 

@@ -37,7 +37,7 @@ flat out uint vert_tex_index;
 void main() {
     gl_Position = projection * view * model * vec4(Position, 1.0);
 	
-	//float fog = 1.0 - clamp((gl_Position.w * 0.125) - 1.0, 0.0, 1.0);
+	float fog = 1.0 - clamp((gl_Position.w * 0.125) - 1.0, 0.0, 1.0);
 	
 	vec3 n = normalize(vec3(model * vec4(Normal, 0.0)));
 	
@@ -46,7 +46,7 @@ void main() {
 	vert_color *= sun_weight;
 	vert_color += 1.0 - sun_weight;
 	
-	//vert_color *= fog;
+	vert_color *= fog;
 	
     vert_uv = VertUV + vec2(texture_transforms[TexIndex]);
 	vert_tex_index = TexIndex;

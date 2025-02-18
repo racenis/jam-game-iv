@@ -30,4 +30,9 @@
 *.exe
 *.out
 *.app
+
+# random other stuff
 assets/items.blend1
+staging/*
+index.*
+nightmare-explorer-web.zip

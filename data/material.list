@@ -19,5 +19,20 @@ dev/wallstair32x32  flat    nearest	metal		1.0 1.0 1.0		0.0     1.0     0.0     
 dev/window128x128   flat    nearest	metal       1.0 1.0 1.0		0.0     1.0     0.0     same
 dev/white           flat    nearest	metal       1.0 1.0 1.0		1.0     32.0    0.0     same
 teapot              flat    nearest	metal       1.0 1.0 1.0		1.0     16.0    0.0     none
-mybestwork          flat    nearest	metal       1.0 1.0 1.0		1.0     16.0    1.0     same
+env/asphalt         flat    nearest	concrete    1.0 1.0 1.0		0.0     1.0     0.0     same
+env/brick         flat    nearest	concrete    1.0 1.0 1.0		0.0     1.0     0.0     same
+env/bush         flat    nearest	concrete    1.0 1.0 1.0		0.0     1.0     0.0     same
+env/bushrough         flat    nearest	concrete    1.0 1.0 1.0		0.0     1.0     0.0     same
+env/carpet         flat    nearest	concrete    1.0 1.0 1.0		0.0     1.0     0.0     same
+env/concrete         flat    nearest	concrete    1.0 1.0 1.0		0.0     1.0     0.0     same
+env/concreterough         flat    nearest	concrete    1.0 1.0 1.0		0.0     1.0     0.0     same
+env/concretesquare         flat    nearest	concrete    1.0 1.0 1.0		0.0     1.0     0.0     same
+env/concretetile         flat    nearest	concrete    1.0 1.0 1.0		0.0     1.0     0.0     same
+env/dirt         flat    nearest	concrete    1.0 1.0 1.0		0.0     1.0     0.0     same
+env/grass         flat    nearest	concrete    1.0 1.0 1.0		0.0     1.0     0.0     same
+env/plank         flat    nearest	concrete    1.0 1.0 1.0		0.0     1.0     0.0     same
+env/sand         flat    nearest	concrete    1.0 1.0 1.0		0.0     1.0     0.0     same
+env/tile         flat    nearest	concrete    1.0 1.0 1.0		0.0     1.0     0.0     same
+env/water         flat    nearest	slime    1.0 1.0 1.0		0.0     1.0     0.0     same
+env/wood         flat    nearest	concrete    1.0 1.0 1.0		0.0     1.0     0.0     same
 # material name	  | type |  filter |  property |   color   |  specl. |  exp. |  tr.  | source

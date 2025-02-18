@@ -118,6 +118,8 @@ creature 428427770 pool-creature 0 -33 0.5 21.25 0 0 0 creature/pool
 trigger 749698259 none 0 47.531075 1 48.961838 0 -0.7853982 0 0 32 gate-trigger 
 signal 749698259 activate progress 0 -1 ping name end 
 creature 342310932 none 0 -8.75 5.017986 -6.5 -9.7048535e-08 1.1886569 -1.17215414e-07 creature/sit 
+staticwobj 808186173 gate-barrier 0 26.625 4 27.999996 0 0 0 gate-barrier fullbright 
+signal 808186173 activate progress 0 -1 ping name sandbox-guy 
 group interior-lights 
 group interior 
 decoration 396988251 none 0 -11 5.5 -7.2481527 3.1415927 -1.5660622 3.1415913 0 toilet none 
